@@ -1,0 +1,10 @@
+#test-orders-support-btn,
+#test-orders-docs-btn {
+    line-height: 22px;
+    float: right;
+    margin-left: 12px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    gap: 6;
+}
