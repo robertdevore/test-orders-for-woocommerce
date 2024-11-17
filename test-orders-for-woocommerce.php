@@ -73,11 +73,11 @@ function wc_test_orders_enqueue_scripts( $hook ) {
     }
 
     // Enqueue custom CSS for the plugin.
-    wp_enqueue_style( 
-        'test-orders-css', 
-        plugins_url( 'assets/css/style.css', __FILE__ ), 
-        [], 
-        TOWC_VERSION 
+    wp_enqueue_style(
+        'test-orders-css',
+        plugins_url( 'assets/css/style.css', __FILE__ ),
+        [],
+        TOWC_VERSION
     );
 }
 
