@@ -146,10 +146,10 @@ function wc_test_orders_include_gateway_class() {
         public function init_form_fields() {
             $this->form_fields = [
                 'enabled' => [
-                    'title'       => esc_html__( 'Enable/Disable', 'wc-test-orders' ),
-                    'type'        => 'checkbox',
-                    'label'       => esc_html__( 'Enable Test Order', 'wc-test-orders' ),
-                    'default'     => 'yes'
+                    'title'   => esc_html__( 'Enable/Disable', 'wc-test-orders' ),
+                    'type'    => 'checkbox',
+                    'label'   => esc_html__( 'Enable Test Order', 'wc-test-orders' ),
+                    'default' => 'yes'
                 ],
                 'title' => [
                     'title'       => esc_html__( 'Title', 'wc-test-orders' ),
