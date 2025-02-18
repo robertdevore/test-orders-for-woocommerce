@@ -12,7 +12,7 @@
   * Plugin Name: Test Orders for WooCommerce®
   * Description: Adds a "Test Order" option to WooCommerce® checkout, bypassing the payment process.
   * Plugin URI:  https://github.com/robertdevore/test-orders-for-woocommerce/
-  * Version:     1.0.0
+  * Version:     1.1.0
   * Author:      Robert DeVore
   * Author URI:  https://robertdevore.com/
   * License:     GPL-2.0+
@@ -49,7 +49,7 @@ use RobertDevore\WPComCheck\WPComPluginHandler;
 new WPComPluginHandler( plugin_basename( __FILE__ ), 'https://robertdevore.com/why-this-plugin-doesnt-support-wordpress-com-hosting/' );
 
 // Define the plugin version.
-define( 'TOWC_VERSION', '1.0.0' );
+define( 'TOWC_VERSION', '1.1.0' );
 
 /**
  * Load plugin text domain for translations
