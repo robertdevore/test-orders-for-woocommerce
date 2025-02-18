@@ -52,6 +52,21 @@ new WPComPluginHandler( plugin_basename( __FILE__ ), 'https://robertdevore.com/w
 define( 'TOWC_VERSION', '1.0.0' );
 
 /**
+ * Load plugin text domain for translations
+ * 
+ * @since 1.1.0
+ * @return void
+ */
+function towc_load_textdomain() {
+    load_plugin_textdomain( 
+        'wc-test-orders', 
+        false, 
+        dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+    );
+}
+add_action( 'plugins_loaded', 'towc_load_textdomain' );
+
+/**
  * Check if WooCommerce® is active and initialize the plugin.
  * 
  * @since  1.0.0
