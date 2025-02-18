@@ -79,6 +79,22 @@ function wc_test_orders_enqueue_scripts( $hook ) {
         [],
         TOWC_VERSION
     );
+
+    // Enqueue custom JS for the plugin.
+    wp_enqueue_script(
+        'test-orders-js',
+        plugins_url( 'assets/js/script.js', __FILE__ ),
+        [ 'jquery' ],
+        TOWC_VERSION,
+        true
+    );
+
+    // Localize the script with AJAX URL and nonce.
+    wp_localize_script( 'test-orders-js', 'wcTestOrders', [
+        'ajax_url' => admin_url( 'admin-ajax.php' ),
+        'nonce'    => wp_create_nonce( 'delete_test_orders_nonce' ),
+    ] );
+
 }
 
 /**
@@ -178,15 +194,16 @@ function wc_test_orders_include_gateway_class() {
         public function process_payment( $order_id ) {
             $order = wc_get_order( $order_id );
 
-            // Get custom settings for the order status and stock reduction.
-            $test_order_status = get_option( 'wc_test_order_status', 'completed' );
-            $reduce_stock      = get_option( 'wc_test_order_reduce_stock', 'yes' );
+            // Add _payment_method meta for "Test Order".
+            $order->update_meta_data( '_payment_method', $this->id );
+            $order->save();
 
             // Set order status.
+            $test_order_status = get_option( 'wc_test_order_status', 'completed' );
             $order->update_status( $test_order_status, esc_html__( 'Test order processed.', 'wc-test-orders' ) );
 
             // Optionally reduce stock levels.
-            if ( 'yes' === $reduce_stock ) {
+            if ( get_option( 'wc_test_order_reduce_stock', 'yes' ) === 'yes' ) {
                 wc_reduce_stock_levels( $order_id );
             }
 
@@ -282,6 +299,133 @@ function wc_test_orders_render_settings_page() {
             </table>
             <?php submit_button( esc_html__( 'Save Settings', 'wc-test-orders' ), 'primary', 'wc_test_orders_save_settings' ); ?>
         </form>
+        <h2><?php esc_html_e( 'Delete Test Orders', 'wc-test-orders' ); ?></h2>
+        <p>
+            <?php esc_html_e( 'Click the button below to delete all test orders.', 'wc-test-orders' ); ?>
+        </p>
+        <button id="delete-test-orders-btn" class="button button-primary">
+            <?php esc_html_e( 'Delete Test Orders', 'wc-test-orders' ); ?>
+        </button>
+        <div id="test-orders-progress" style="display:none; margin-top: 20px;">
+            <div style="background: #ddd; width: 100%; height: 20px; border-radius: 5px;">
+                <div id="test-orders-progress-bar" style="background: #0073aa; height: 100%; width: 0%; border-radius: 5px;"></div>
+            </div>
+            <p id="test-orders-status-message" style="margin-top: 15px; color: #0073aa; font-weight: bold;"></p>
+            <p id="test-orders-progress-text" style="margin-top: 10px;"><?php esc_html_e( 'Progress: 0%', 'wc-test-orders' ); ?></p>
+        </div>
     </div>
     <?php
 }
+
+/**
+ * AJAX handler to delete test orders.
+ *
+ * @since 1.1.0
+ * @return void
+ */
+function wc_test_orders_delete_test_orders() {
+    check_ajax_referer( 'delete_test_orders_nonce', 'nonce' );
+
+    $batch_size    = 10;
+    $offset        = isset( $_POST['offset'] ) ? intval( $_POST['offset'] ) : 0;
+    $total_deleted = isset( $_POST['total_deleted'] ) ? intval( $_POST['total_deleted'] ) : 0;
+    $total_scanned = isset( $_POST['total_scanned'] ) ? intval( $_POST['total_scanned'] ) : 0;
+
+    // Only calculate total_scanned on the first request.
+    if ( $offset === 0 || $total_scanned === 0 ) {
+        $total_query = new WP_Query( [
+            'post_type'      => 'shop_order',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'post_status'    => [ 'wc-completed', 'wc-processing', 'wc-on-hold', 'wc-pending' ],
+            'meta_query'     => [
+                [
+                    'key'     => '_payment_method',
+                    'value'   => 'test_order',
+                    'compare' => '=',
+                ],
+            ],
+        ] );
+        
+        $total_scanned = $total_query->found_posts;
+    }
+
+    // Fetch a batch of test orders.
+    $args = [
+        'post_type'      => 'shop_order',
+        'posts_per_page' => $batch_size,
+        'offset'         => $offset,
+        'fields'         => 'ids',
+        'post_status'    => [ 'wc-completed', 'wc-processing', 'wc-on-hold', 'wc-pending' ],
+        'meta_query'     => [
+            [
+                'key'     => '_payment_method',
+                'value'   => 'test_order',
+                'compare' => '=',
+            ],
+        ],
+    ];
+
+    $orders        = get_posts( $args );
+    $deleted_count = 0;
+
+    foreach ( $orders as $order_id ) {
+        wp_delete_post( $order_id, true ); // Force delete the order.
+        $deleted_count++;
+    }
+
+    // Update total deleted count.
+    $total_deleted += $deleted_count;
+
+    // Check if more orders are remaining.
+    $has_more = ( $offset + $batch_size ) < $total_scanned;
+
+    if ( $total_scanned === 0 ) {
+        wp_send_json_success( [
+            'deleted_count'       => 0,
+            'total_deleted'       => 0,
+            'total_scanned'       => $total_scanned,
+            'next_offset'         => 0,
+            'has_more'            => false,
+            'progress_percentage' => 100,
+            'message'             => __( 'No test orders found. Debug: ' . print_r( $total_query->request, true ), 'wc-test-orders' ),
+        ] );
+    }    
+
+    wp_send_json_success( [
+        'deleted_count'       => $deleted_count,
+        'total_deleted'       => $total_deleted,
+        'total_scanned'       => $total_scanned,
+        'next_offset'         => $offset + $batch_size,
+        'has_more'            => $has_more,
+        'progress_percentage' => $total_scanned > 0 ? round( ( $total_deleted / $total_scanned ) * 100 ) : 0,
+        'message'             => __( 'Deleting test orders...', 'wc-test-orders' ),
+    ] );
+}
+add_action( 'wp_ajax_wc_test_orders_delete_test_orders', 'wc_test_orders_delete_test_orders' );
+
+/**
+ * Function to retrieve the payment method of a WooCommerce order.
+ *
+ * @param int $order_id WooCommerce Shop Order ID.
+ * 
+ * @since  1.0.0
+ * @return string|null The payment method title or null if not found.
+ */
+function get_order_payment_method( $order_id ) {
+    // Check if WooCommerce is active.
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        return null;
+    }
+
+    // Load the order.
+    $order = wc_get_order( $order_id );
+
+    if ( ! $order ) {
+        return null;
+    }
+
+    // Retrieve payment method information.
+    return $order->get_payment_method_title();
+}
+

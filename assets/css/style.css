@@ -8,3 +8,7 @@
     align-items: center;
     gap: 6;
 }
+
+#test-orders-progress {
+    max-width: 500px;
+}
