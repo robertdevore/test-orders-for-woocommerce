@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Test Orders for WooCommerce®\n"
+"POT-Creation-Date: 2025-02-18 12:57-0500\n"
+"PO-Revision-Date: 2025-02-18 12:57-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: test-orders-for-woocommerce.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+
+#: test-orders-for-woocommerce.php:131
+msgid "Test Orders for WooCommerce® requires WooCommerce® to be active."
+msgstr "Ordini di prova per WooCommerce® richiede che WooCommerce® sia attivo."
+
+#: test-orders-for-woocommerce.php:165 test-orders-for-woocommerce.php:198
+msgid "Test Order"
+msgstr "Ordine di prova"
+
+#: test-orders-for-woocommerce.php:166
+msgid "Use this option for placing test orders without payment."
+msgstr ""
+"Utilizzare questa opzione per effettuare ordini di prova senza pagamento."
+
+#: test-orders-for-woocommerce.php:189
+msgid "Enable/Disable"
+msgstr "Abilita/Disabilita"
+
+#: test-orders-for-woocommerce.php:191
+msgid "Enable Test Order"
+msgstr "Abilitazione dell'ordine di prova"
+
+#: test-orders-for-woocommerce.php:195
+msgid "Title"
+msgstr "Titolo"
+
+#: test-orders-for-woocommerce.php:197
+msgid "This controls the title displayed during checkout."
+msgstr "Controlla il titolo visualizzato durante il checkout."
+
+#: test-orders-for-woocommerce.php:202
+msgid "Description"
+msgstr "Descrizione"
+
+#: test-orders-for-woocommerce.php:204
+msgid "This controls the description displayed during checkout."
+msgstr "Controlla la descrizione visualizzata durante il checkout."
+
+#: test-orders-for-woocommerce.php:205
+msgid "Place a test order without payment."
+msgstr "Effettuare un ordine di prova senza pagamento."
+
+#: test-orders-for-woocommerce.php:227
+msgid "Test order processed."
+msgstr "Ordine di prova elaborato."
+
+#: test-orders-for-woocommerce.php:256 test-orders-for-woocommerce.php:287
+msgid "Test Orders Settings"
+msgstr "Impostazioni degli ordini di prova"
+
+#: test-orders-for-woocommerce.php:257
+msgid "Test Orders"
+msgstr "Ordini di prova"
+
+#: test-orders-for-woocommerce.php:278
+msgid "Settings saved."
+msgstr "Impostazioni salvate."
+
+#: test-orders-for-woocommerce.php:289
+msgid "Support"
+msgstr "Supporto"
+
+#: test-orders-for-woocommerce.php:292
+msgid "Documentation"
+msgstr "Documentazione"
+
+#: test-orders-for-woocommerce.php:301
+msgid "Order Status"
+msgstr "Stato Ordine"
+
+#: test-orders-for-woocommerce.php:305
+msgid "Completed"
+msgstr "Completato"
+
+#: test-orders-for-woocommerce.php:306
+msgid "Processing"
+msgstr "Elaborazione"
+
+#: test-orders-for-woocommerce.php:307
+msgid "On Hold"
+msgstr "In attesa"
+
+#: test-orders-for-woocommerce.php:308
+msgid "Pending Payment"
+msgstr "Pagamento in attesa"
+
+#: test-orders-for-woocommerce.php:314
+msgid "Reduce Stock"
+msgstr "Riduci scorte"
+
+#: test-orders-for-woocommerce.php:318
+msgid "Yes"
+msgstr "Sì"
+
+#: test-orders-for-woocommerce.php:319
+msgid "No"
+msgstr "No"
+
+#: test-orders-for-woocommerce.php:324
+msgid "Save Settings"
+msgstr "Salva Impostazioni"
+
+#: test-orders-for-woocommerce.php:326 test-orders-for-woocommerce.php:331
+msgid "Delete Test Orders"
+msgstr "Cancellare gli ordini di prova"
+
+#: test-orders-for-woocommerce.php:328
+msgid "Click the button below to delete all test orders."
+msgstr ""
+"Fare clic sul pulsante sottostante per eliminare tutti gli ordini di prova."
+
+#: test-orders-for-woocommerce.php:338
+msgid "Progress: 0%"
+msgstr "Progressi: 0%"
+
+#: test-orders-for-woocommerce.php:415
+msgid "No test orders found. Debug: "
+msgstr "Nessun ordine di prova trovato. Debug:"
+
+#: test-orders-for-woocommerce.php:426
+msgid "Deleting test orders..."
+msgstr "Eliminazione degli ordini di prova..."
+
+#. Plugin Name of the plugin/theme
+msgid "Test Orders for WooCommerce®"
+msgstr "Ordini di prova per WooCommerce"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/robertdevore/test-orders-for-woocommerce/"
+msgstr "https://github.com/robertdevore/test-orders-for-woocommerce/"
+
+#. Description of the plugin/theme
+msgid ""
+"Adds a \"Test Order\" option to WooCommerce® checkout, bypassing the payment "
+"process."
+msgstr ""
+"Aggiunge un'opzione \"Ordine di prova\" al checkout di WooCommerce®, "
+"bypassando il processo di pagamento."
+
+#. Author of the plugin/theme
+msgid "Robert DeVore"
+msgstr "Robert DeVore"
+
+#. Author URI of the plugin/theme
+msgid "https://robertdevore.com/"
+msgstr "https://robertdevore.com/"
